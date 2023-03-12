@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Table with Popover</title>
+    <style>
+
+        /* Style the popover content */
+        .setborder {
+            padding: 5px;
+        }
+
+        .setLine {
+            border-left: 1px solid black;
+            padding: 5px;
+        }
+
+        #tbox {
+            width: 30px;
+        }
+        /* Hide the table by default */
+        #myTbContainer {
+            display: none;
+            position: absolute;
+            z-index: 999;
+        }
+
+        #innerTb {
+            display: table;
+            border-collapse: collapse;
+            width: auto;
+            height: auto;
+            background-color: ghostwhite;
+        }
+
+            #innerTb td, #innerTb th {
+                padding: 5px;
+            }
+        table {
+            border-collapse: collapse; /* This property makes the borders merge into a single border */
+        }
+
+        td, th {
+            border: 1px solid black; /* This property sets a 1-pixel solid border with black color */
+        }
+    </style>
+</head>
+<body>
+    <h1>Table with Popover</h1>
+    <p>Put your cursor in the textbox to see the table with popover:</p>
+    <table style="border: 1px solid black">
+        <tr>
+            <td>Cell 1</td>
+            <td>Cell 2</td>
+            <td style="width: 200px;">Cell 3</td> <!-- this cell will have a width of 200 pixels -->
+            <td>Cell 4</td>
+        </tr>
+        <tr>
+            <td>Cell 5</td>
+            <td>Cell 6</td>
+            <td>Cell 7</td>
+            <td>Cell 8</td>
+        </tr>
+    </table>
+    <table id="outerTable">
+
+        <tr>
+            <td class="setborder"> Id </td>
+            <td class="setLine"> Job </td>
+        </tr>
+        <tr>
+            <td class="setborder"> Id2 </td>
+            <td class="setLine"> Job </td>
+        </tr>
+        <tr>
+            <td class="setborder"> Id3 </td>
+            <td class="setLine"> Job </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="text" id="tbox">
+
+                <!-- Add a container element for the table and position it absolutely on the page -->
+                <div id="myTbContainer">
+                    <table id="innerTb">
+
+                        <tr>
+                            <td class="setborder"> row1 </td>
+                            <td class="setLine"> col1 </td>
+                        </tr>
+                        <tr>
+                            <td class="setborder"> row2 </td>
+                            <td class="setLine"> col2 </td>
+                        </tr>
+                        <tr>
+                            <td class="setborder"> row3 </td>
+                            <td class="setLine"> col3 </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+</body>
+</html>
+
+<!-- Include the Bootstrap CSS and JavaScript files -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Get the textbox element
+        var textbox = document.getElementById("tbox");
+
+        // Get the table container element
+        var tableContainer = document.getElementById("myTbContainer");
+
+        // Add event listeners to the textbox
+        textbox.addEventListener("focus", function () {
+            // Show the table
+            tableContainer.style.display = "block";
+        });
+
+        textbox.addEventListener("blur", function () {
+            // Hide the table
+            tableContainer.style.display = "none";
+        });
+
+        // Get the inner table
+        var innerTable = document.getElementById("innerTb");
+
+        // Add click event listener to each row
+        for (var i = 0; i < innerTable.rows.length; i++) {
+            // Add hover effect to each row
+            innerTable.rows[i].addEventListener("mouseover", function () {
+                this.style.backgroundColor = "#B9E2E8";
+                console.log("Mouse over row", i);
+            });
+            innerTable.rows[i].addEventListener("mouseout", function () {
+                this.style.backgroundColor = "";
+            });
+            // Add click event listener to each cell in the row
+            for (var j = 0; j < innerTable.rows[i].cells.length; j++) {
+                innerTable.rows[i].cells[j].addEventListener("click", function () {
+                    console.log("Cell clicked");
+                    // Get the value of the clicked cell
+                    var dataValue = this.innerHTML;
+                    // Set the input value to the selected data value
+                    textbox.value = dataValue;
+                    // Hide the table after selecting a row
+                    tableContainer.style.display = "none";
+                    // Log the selected data value
+                    console.log(dataValue, "selected data");
+                });
+            }
+        }
+    });
+
+</script>
+
+
+
+
